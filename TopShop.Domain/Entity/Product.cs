@@ -40,7 +40,13 @@ namespace TopShop.Domain.Entity
         {
             Price = newPrice;
         }
-
+        // Phương thức để giảm số lượng sản phẩm khi có đơn hàng
+        public void ReduceStock(int amount)
+        {
+            if (amount > Quantity.Value)
+                throw new InvalidOperationException("Không đủ hàng trong kho.");
+            Quantity = new Quantity(Quantity.Value - amount);
+        }
         //Phương thức tính tổng giá trị của sản phẩm dựa trên số lượng và giá
         public decimal CalculateTotalValue()
         {
