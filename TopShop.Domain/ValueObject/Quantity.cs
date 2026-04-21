@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TopShop.Domain.ValueObject
 {
-    public class Quantity
+    public  record  Quantity
     {
         public int Value { get; }
         public Quantity(int value)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TopShop.Domain.ValueObject
 {
-    public  class Price
+    public  record  Price
     {
         public decimal Value { get; }
 
@@ -16,5 +16,6 @@ namespace TopShop.Domain.ValueObject
                 throw new ArgumentException("Giá không hợp lệ");
             Value = value;
         }
+        
     }
 }

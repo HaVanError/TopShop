@@ -10,21 +10,26 @@ namespace TopShop.Domain.Entity
 {
     public class Product
     {
-        public int Id { get; set; }
+        public Guid Id { get;  private set; } = Guid.NewGuid(); // Sử dụng Guid làm khóa chính cho sản phẩm
         public string Name { get; private set; } 
         public string Descriptions { get; private set; } 
         public Price Price { get; private set; }
         public Quantity Quantity { get; private set; }
         public ProductStatus Status { get; private set; } = ProductStatus.Activate; // Trạng thái hoạt động của sản phẩm (mặc định là đang bán)
+        public Guid CategoryId { get; set; } // khóa ngoại đến Category
+        public Category Category { get; set; } // quan hệ 1 -n với Category
         private Product() { }
         public Product(string productName, string descriptions, Price price, Quantity quantity)
         {
+           
+            Helper.Validate.ValidateRequired(productName, "Tên sản phẩm");
+            Helper.Validate.ValidateRequired(descriptions, "Mô tả sản phẩm");
             Name = productName;
             Descriptions = descriptions;
             Price = price;
             Quantity = quantity;
         }
-
+        //kiểm tra trạng thái của sản phẩm trước khi thực hiện các hành vi thay đổi thông tin sản phẩm
         private void EnsureActive()
         {
             if (Status != ProductStatus.Activate)
@@ -35,11 +40,13 @@ namespace TopShop.Domain.Entity
         public void ChangeName(string newName)
         {
             EnsureActive();
+            Helper.Validate.ValidateRequired(newName, "Tên sản phẩm");
             Name = newName;
         }
         public void ChangeDescriptions(string newDescriptions)
         {
             EnsureActive();
+            Helper.Validate.ValidateRequired(newDescriptions, "Mô tả sản phẩm");
             Descriptions = newDescriptions;
         }
         
@@ -78,6 +85,16 @@ namespace TopShop.Domain.Entity
         {
             return Price.Value * Quantity.Value;
         }
+        // phương thức set giá trị IdDanhmuc cho sản phẩm
+        public void SetCategoryId(Guid categoryId)
+        {
+            CategoryId = categoryId;
+        }
 
+        //override
+        //    public string ToString()
+        //{
+        //    return $"Tên sản phẩm: {Name}, Mô tả: {Descriptions}, Giá: {Price.Value}, Số lượng: {Quantity.Value} , Trạng thái: {Status} ";
+        //}
     }
 }
