@@ -11,13 +11,13 @@ namespace TopShop.Domain.Entity
     public class Product
     {
         public int Id { get; set; }
-        public ProductName Name { get; private set; } 
-        public ProductDescription Descriptions { get; private set; } 
+        public string Name { get; private set; } 
+        public string Descriptions { get; private set; } 
         public Price Price { get; private set; }
         public Quantity Quantity { get; private set; }
         public ProductStatus Status { get; private set; } = ProductStatus.Activate; // Trạng thái hoạt động của sản phẩm (mặc định là đang bán)
         private Product() { }
-        public Product(ProductName productName, ProductDescription descriptions, Price price, Quantity quantity)
+        public Product(string productName, string descriptions, Price price, Quantity quantity)
         {
             Name = productName;
             Descriptions = descriptions;
@@ -32,12 +32,12 @@ namespace TopShop.Domain.Entity
         }
 
         // các hành vi thay đổi trạng thái của sản phẩm
-        public void ChangeName(ProductName newName)
+        public void ChangeName(string newName)
         {
             EnsureActive();
             Name = newName;
         }
-        public void ChangeDescriptions(ProductDescription newDescriptions)
+        public void ChangeDescriptions(string newDescriptions)
         {
             EnsureActive();
             Descriptions = newDescriptions;
