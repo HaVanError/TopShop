@@ -16,8 +16,8 @@ namespace TopShop.Domain.Entity
         public Price Price { get; private set; }
         public Quantity Quantity { get; private set; }
         public ProductStatus Status { get; private set; } = ProductStatus.Activate; // Trạng thái hoạt động của sản phẩm (mặc định là đang bán)
-        public Guid CategoryId { get; set; } // khóa ngoại đến Category
-        public Category Category { get; set; } // quan hệ 1 -n với Category
+        public Guid CategoryId { get; private set; } // khóa ngoại đến Category
+        public Category Category { get; private set; } // quan hệ 1 -n với Category
         private Product() { }
         public Product(string productName, string descriptions, Price price, Quantity quantity)
         {
@@ -86,8 +86,14 @@ namespace TopShop.Domain.Entity
             return Price.Value * Quantity.Value;
         }
         // phương thức set giá trị IdDanhmuc cho sản phẩm
-        public void SetCategoryId(Guid categoryId)
+        public void ChangeCategory(Guid categoryId)
         {
+            EnsureActive();
+            if (categoryId == Guid.Empty)// kiểm tra nếu categoryId là Guid.Empty thì ném lỗi 
+                throw new ArgumentException("Category không hợp lệ");
+
+            if (CategoryId == categoryId)
+                return; // nếu categoryId mới giống với categoryId hiện tại thì không cần thay đổi
             CategoryId = categoryId;
         }
 

@@ -10,7 +10,7 @@ namespace TopShop.Domain.Entity
     {
         public Guid Id { get; private  set; } = Guid.NewGuid(); // Sử dụng Guid làm khóa chính cho danh mục
         public string Name { get; private set; } = string.Empty;
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<Product> Products { get; private set; } = new List<Product>();
         private Category() { }
         public Category(string name)
         {
@@ -27,8 +27,10 @@ namespace TopShop.Domain.Entity
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
             Products.Add(product);
-            product.SetCategoryId(this.Id); // Thiết lập khóa ngoại cho sản phẩm
-            product.Category = this; // Thiết lập quan hệ 1-n giữa Category và Product
+          //  product.SetCategoryId(this.Id); // Thiết lập khóa ngoại cho sản phẩm
+          //  product.Category = this; // Thiết lập quan hệ 1-n giữa Category và Product
+          product.ChangeCategory(this.Id); // Thiết lập khóa ngoại cho sản phẩm
+           // product.Category = this; // Thiết lập quan hệ 1-n giữa Category và Product
         }
 
     }
